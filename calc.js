@@ -35,7 +35,7 @@ window.addEventListener('load', () => {
     }
 
     function percent(num) {
-        return number / 100;
+        return num / 100;
     }
 
     function updateDisplayValue() {
@@ -96,11 +96,45 @@ window.addEventListener('load', () => {
         })
     })
 
+    clearBtn.addEventListener('click', () => {
+        display.textContent = 0;
+        count = 0;
+        num1 = 0;
+        num2 = 0;
+        operatorButtonPushed = false;
+        disabledDecimal = false;
+        removeHighlight();
+    })
 
+    mathBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+            if (count > 0) {
+                num2 = displayValue;
+                display.textContent = operate(operator, num1, num2);
+            }
+            operator = btn.textContent;
+            updateDisplayValue();
+            num1 = displayValue;
+            operatorButtonPushed = true;
+            disabledDecimal = false;
+            btn.classList.add('pushed');
+        })
+    })
 
+    percentBtn.addEventListener('click', () => {
+        display.textContent = percent(display.textContent);
+        updateDisplayValue();
+    })
 
+    negativeBtn.addEventListener('click', () => {
+        display.textContent = multiply(Number(display.textContent), -1);
+        updateDisplayValue();
+    })
 
-
-
-
+    equalBtn.addEventListener('click', () => {
+        num2 = displayValue;
+        let result = operate(operator, num1, num2);
+        display.textContent = result;
+        operatorButtonPushed = true;
+    })
 })

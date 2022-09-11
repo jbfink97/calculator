@@ -63,6 +63,39 @@ window.addEventListener('load', () => {
     let count = 0;
     let disabledDecimal = false;
 
+    numberBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+            const numberValue = btn.textContent;
+            if (disabledDecimal && numberValue == '.' && operatorButtonPushed == false) {
+                return;
+            }
+            if (display.textContent.length > 9) {
+                return;
+            }
+            if (operatorButtonPushed == true) {
+                display.textContent = numberValue;
+                updateDisplayValue();
+                operatorButtonPushed = false;
+                count = 1;
+            } else if (display.textContent === '0') {
+                if (numberValue == '.') {
+                    display.textContent = 0 + numberValue;
+                    updateDisplayValue();
+                } else {
+                    display.textContent = numberValue;
+                    updateDisplayValue();
+                }
+            } else {
+                display.textContent = display.textContent + numberValue;
+                updateDisplayValue();
+            }
+            if (numberValue == '.') {
+                disabledDecimal = true;
+            }
+            removeHighlight();
+        })
+    })
+
 
 
 
